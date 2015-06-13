@@ -23,6 +23,11 @@
                 });
         }
 
+        protected override void PostStop()
+        {
+            _cluster.Unsubscribe(Self);
+        }
+
         public BroadcastActor()
         {
             Receive<string>(m =>
@@ -41,7 +46,7 @@
 
             Receive<ClusterEvent.MemberUp>(m =>
             {
-                Console.WriteLine($"Seed nodes = {_cluster.Settings.SeedNodes.Select(sn => sn.ToString())}");
+                Console.WriteLine($"Seed nodes = {string.Join(", ", _cluster.Settings.SeedNodes.Select(sn => sn.ToString()))}");
                 Console.WriteLine($"MemberUp {m.Member.Address.ToString()}");
                 _members.Add(m.Member);
             });
