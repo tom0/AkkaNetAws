@@ -1,0 +1,18 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="AkkaNetAws.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="AwsAccessKeyId" Type="System.String" Scope="User">
+      <Value Profile="(Default)"></Value>
+    </Setting>
+    <Setting Name="AwsSecretAccessKey" Type="System.String" Scope="User">
+      <Value Profile="(Default)"></Value>
+    </Setting>
+    <Setting Name="AkkaPort" Type="System.UInt16" Scope="User">
+      <Value Profile="(Default)">2551</Value>
+    </Setting>
+    <Setting Name="AkkaActorSystem" Type="System.String" Scope="User">
+      <Value Profile="(Default)">AwsAkkaTest</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>
