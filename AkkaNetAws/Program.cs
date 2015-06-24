@@ -1,7 +1,7 @@
 ﻿namespace AkkaNetAws
 {
-    using System;
     using Akka.Actor;
+    using System;
 
     class Program
     {

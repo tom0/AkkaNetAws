@@ -115,7 +115,8 @@
                 if (instanceIds.Any())
                 {
                     var instances = await GetInstancesForInstanceIds(instanceIds);
-                    siblings = new HashSet<IPAddress>(instances.Select(InstanceToIpAddress));
+                    var runningInstances = instances.Where(i => i.State.Name == InstanceStateName.Running);
+                    siblings = new HashSet<IPAddress>(runningInstances.Select(InstanceToIpAddress));
                 }
             }
 
