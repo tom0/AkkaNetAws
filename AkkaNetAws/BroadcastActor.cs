@@ -5,9 +5,11 @@
     using System.Linq;
     using Akka.Actor;
     using Akka.Cluster;
+    using NLog;
 
     public class BroadcastActor : ReceiveActor
     {
+        private readonly ILogger _log = LogManager.GetCurrentClassLogger();
         private readonly Cluster _cluster = Cluster.Get(Context.System);
         private readonly ISet<Member> _members = new HashSet<Member>();
 
@@ -32,12 +34,12 @@
         {
             Receive<string>(m =>
             {
-                Console.WriteLine($"************ Message from [{Sender.Path.ToString()}] : [{m}]");
+                _log.Info($"************ Message from [{Sender.Path.ToString()}] : [{m}]");
             });
 
             Receive<Message>(m =>
             {
-                Console.WriteLine($"Message: {m.Text}");
+                _log.Info($"Message: {m.Text}");
                 foreach (var path in _members.Select(PathOf))
                 {
                     path.Tell(m.Text);
@@ -46,20 +48,20 @@
 
             Receive<ClusterEvent.MemberUp>(m =>
             {
-                Console.WriteLine($"Seed nodes = {string.Join(", ", _cluster.Settings.SeedNodes.Select(sn => sn.ToString()))}");
-                Console.WriteLine($"MemberUp {m.Member.Address.ToString()}");
+                _log.Info($"Seed nodes = {string.Join(", ", _cluster.Settings.SeedNodes.Select(sn => sn.ToString()))}");
+                _log.Info($"MemberUp {m.Member.Address.ToString()}");
                 _members.Add(m.Member);
             });
 
             Receive<ClusterEvent.MemberExited>(m =>
             {
-                Console.WriteLine($"MemberExited {m.Member.Address.ToString()}");
+                _log.Info($"MemberExited {m.Member.Address.ToString()}");
                 _members.Remove(m.Member);
             });
 
             Receive<ClusterEvent.MemberRemoved>(m =>
             {
-                Console.WriteLine($"MemberRemoved {m.Member.Address.ToString()}");
+                _log.Info($"MemberRemoved {m.Member.Address.ToString()}");
                 _members.Remove(m.Member);
             });
 
